@@ -1,0 +1,11 @@
+{
+  "name": "@cityville/proto",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "gen": "buf generate"
+  },
+  "devDependencies": {
+    "@bufbuild/buf": "^1.0.0"
+  }
+}

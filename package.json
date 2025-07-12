@@ -1,0 +1,14 @@
+
+{
+  "name": "cityville",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "services/*"
+  ],
+  "scripts": {
+    "proto:gen": "echo \"Generating protos...\"",
+    "dev:all": "echo \"Starting all dev services...\""
+  }
+}
