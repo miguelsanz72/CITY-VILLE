@@ -1,0 +1,296 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [
+    "**/.env.*local",
+    ".env",
+    ".env.local",
+    ".env.production",
+    ".env.development",
+    "tsconfig.json",
+    "jest.config.js",
+    "jest.setup.js",
+    ".eslintrc.js",
+    ".prettierrc.js",
+    "playwright.config.ts"
+  ],
+  "globalEnv": [
+    "NODE_ENV",
+    "DATABASE_URL",
+    "REDIS_URL",
+    "NATS_URL",
+    "JWT_SECRET",
+    "SESSION_SECRET",
+    "CORS_ORIGIN",
+    "SENTRY_DSN",
+    "PROMETHEUS_ENABLED",
+    "LOG_LEVEL",
+    "JAEGER_ENABLED",
+    "FEATURE_*",
+    "S3_*",
+    "STRIPE_*",
+    "SENDGRID_*",
+    "FIREBASE_*",
+    "GOOGLE_*",
+    "FACEBOOK_*",
+    "TWITTER_*",
+    "DISCORD_*"
+  ],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**",
+        "build/**",
+        "out/**",
+        "public/dist/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "NEXT_PUBLIC_*",
+        "VITE_*",
+        "PUBLIC_*"
+      ]
+    },
+    "build:prod": {
+      "dependsOn": ["^build:prod"],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**",
+        "build/**",
+        "out/**",
+        "public/dist/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "NEXT_PUBLIC_*",
+        "VITE_*",
+        "PUBLIC_*"
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "env": [
+        "NODE_ENV",
+        "PORT",
+        "API_PORT",
+        "GAME_SERVER_PORT",
+        "DATABASE_URL",
+        "REDIS_URL",
+        "NATS_URL",
+        "NEXT_PUBLIC_*",
+        "VITE_*",
+        "PUBLIC_*"
+      ]
+    },
+    "start": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "persistent": true,
+      "env": [
+        "NODE_ENV",
+        "PORT",
+        "API_PORT",
+        "GAME_SERVER_PORT",
+        "DATABASE_URL",
+        "REDIS_URL",
+        "NATS_URL"
+      ]
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "lint:fix": {
+      "dependsOn": ["^build"],
+      "outputs": [],
+      "cache": false
+    },
+    "format": {
+      "outputs": [],
+      "cache": false
+    },
+    "format:check": {
+      "outputs": []
+    },
+    "type:check": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "coverage/**",
+        "test-results/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "TEST_DATABASE_URL",
+        "CI"
+      ]
+    },
+    "test:unit": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "coverage/**",
+        "test-results/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI"
+      ]
+    },
+    "test:integration": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "coverage/**",
+        "test-results/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "TEST_DATABASE_URL",
+        "REDIS_URL",
+        "NATS_URL",
+        "CI"
+      ]
+    },
+    "test:e2e": {
+      "dependsOn": ["build"],
+      "outputs": [
+        "test-results/**",
+        "playwright-report/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "E2E_BASE_URL",
+        "CI"
+      ]
+    },
+    "test:watch": {
+      "cache": false,
+      "persistent": true,
+      "env": [
+        "NODE_ENV"
+      ]
+    },
+    "clean": {
+      "cache": false,
+      "outputs": []
+    },
+    "db:migrate": {
+      "cache": false,
+      "outputs": [],
+      "env": [
+        "DATABASE_URL"
+      ]
+    },
+    "db:seed": {
+      "cache": false,
+      "outputs": [],
+      "env": [
+        "DATABASE_URL"
+      ]
+    },
+    "db:reset": {
+      "cache": false,
+      "outputs": [],
+      "env": [
+        "DATABASE_URL"
+      ]
+    },
+    "proto:generate": {
+      "outputs": [
+        "src/generated/**",
+        "generated/**"
+      ]
+    },
+    "docker:build": {
+      "dependsOn": ["build"],
+      "outputs": [],
+      "cache": false
+    },
+    "docker:push": {
+      "dependsOn": ["docker:build"],
+      "outputs": [],
+      "cache": false
+    },
+    "deploy:staging": {
+      "dependsOn": ["build", "test"],
+      "outputs": [],
+      "cache": false,
+      "env": [
+        "KUBECONFIG",
+        "KUBE_NAMESPACE",
+        "HELM_*"
+      ]
+    },
+    "deploy:production": {
+      "dependsOn": ["build", "test"],
+      "outputs": [],
+      "cache": false,
+      "env": [
+        "KUBECONFIG",
+        "KUBE_NAMESPACE",
+        "HELM_*"
+      ]
+    },
+    "security:audit": {
+      "outputs": [
+        "security-report/**"
+      ]
+    },
+    "security:scan": {
+      "outputs": [
+        "security-report/**"
+      ]
+    },
+    "docs:build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "docs/dist/**",
+        "storybook-static/**"
+      ]
+    },
+    "docs:dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "storybook": {
+      "cache": false,
+      "persistent": true,
+      "env": [
+        "NODE_ENV"
+      ]
+    },
+    "storybook:build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "storybook-static/**"
+      ]
+    },
+    "analyze": {
+      "dependsOn": ["build"],
+      "outputs": [
+        "analyze/**",
+        ".next/analyze/**"
+      ]
+    },
+    "bundle:analyze": {
+      "dependsOn": ["build"],
+      "outputs": [
+        "bundle-analyzer/**"
+      ]
+    }
+  },
+  "remoteCache": {
+    "signature": true
+  },
+  "ui": "tui",
+  "daemon": true,
+  "experimentalSpaces": {
+    "id": "cityville-2025"
+  }
+}

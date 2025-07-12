@@ -1,10 +1,32 @@
 
 # Dependencies
-/node_modules
+node_modules/
+*/node_modules/
+yarn-error.log
+npm-debug.log*
+yarn-debug.log*
+.pnpm-debug.log*
 
-# Build artifacts
-/dist
-/.next
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+.output/
+.vercel/
+.netlify/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+.nyc_output/
 
 # Logs
 logs
@@ -12,6 +34,55 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# parcel-bundler cache
+.cache
+.parcel-cache
+
+# Go specific
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Go workspace file
+go.work
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
 # OS generated files
 .DS_Store
@@ -21,3 +92,131 @@ yarn-error.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker
+.dockerignore
+
+# Kubernetes
+*.kubeconfig
+kubeconfig
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+terraform.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+crash.log
+crash.*.log
+
+# Helm
+*.tgz
+charts/*.tgz
+
+# Generated files
+proto/generated/
+*.pb.go
+*.pb.ts
+*.pb.js
+*.d.ts.map
+
+# Test results
+test-results/
+playwright-report/
+test-results.xml
+junit.xml
+
+# Certificates
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Cache directories
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+
+# Nx
+.nx/cache
+
+# Turborepo
+.turbo
+
+# Vercel
+.vercel
+
+# Local environment overrides
+.env.local
+.env.*.local
+
+# Generated documentation
+docs/generated/
+
+# Monitoring and observability
+jaeger-ui/
+prometheus-data/
+grafana-data/
+
+# MinIO data
+minio-data/
+
+# PostgreSQL data
+postgres-data/
+
+# Redis data
+redis-data/
+
+# NATS data
+nats-data/
+
+# Local development overrides
+docker-compose.override.yml
+
+# Husky
+.husky/_
+
+# Playwright
+playwright/.cache/
+
+# Local development secrets
+secrets/
+.secrets/
+*.secret
+*.secrets
+
+# API keys
+*.api-key
+*.apikey
+api-keys/
+
+# Generated types
+types/generated/
+*.generated.ts
+*.generated.js
+
+# Auto-generated files
+auto-generated/
+generated/
+*.auto.*

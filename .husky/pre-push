@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run full test suite
+yarn test:unit
+
+# Run integration tests
+yarn test:integration
+
+# Check for security vulnerabilities
+yarn audit --level moderate
+
+# Ensure build works
+yarn build:packages

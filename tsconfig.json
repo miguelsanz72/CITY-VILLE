@@ -1,0 +1,71 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./",
+    "removeComments": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": ".",
+    "paths": {
+      "@cityville/ecs-core": ["./packages/ecs-core/src"],
+      "@cityville/ecs-core/*": ["./packages/ecs-core/src/*"],
+      "@cityville/proto": ["./packages/proto/src"],
+      "@cityville/proto/*": ["./packages/proto/src/*"],
+      "@cityville/config": ["./packages/config/src"],
+      "@cityville/config/*": ["./packages/config/src/*"],
+      "@cityville/ui-react": ["./packages/ui-react/src"],
+      "@cityville/ui-react/*": ["./packages/ui-react/src/*"]
+    }
+  },
+  "include": [
+    "apps/**/*",
+    "packages/**/*",
+    "scripts/**/*",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.e2e-spec.ts"
+  ],
+  "references": [
+    { "path": "./packages/ecs-core" },
+    { "path": "./packages/proto" },
+    { "path": "./packages/config" },
+    { "path": "./packages/ui-react" },
+    { "path": "./apps/api-gateway" },
+    { "path": "./apps/game-client" },
+    { "path": "./apps/game-server" }
+  ]
+}

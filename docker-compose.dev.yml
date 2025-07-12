@@ -1,0 +1,212 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: cityville-postgres-dev
+    environment:
+      POSTGRES_DB: cityville_dev
+      POSTGRES_USER: cityville
+      POSTGRES_PASSWORD: cityville_dev_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cityville -d cityville_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cityville-dev
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: cityville-redis-dev
+    command: redis-server --appendonly yes --requirepass cityville_redis_password
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "cityville_redis_password", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cityville-dev
+
+  # NATS JetStream
+  nats:
+    image: nats:2.10-alpine
+    container_name: cityville-nats-dev
+    command: [
+      "--jetstream",
+      "--store_dir=/data",
+      "--max_file_store=1GB",
+      "--max_mem_store=256MB",
+      "--port=4222",
+      "--http_port=8222",
+      "--log_file=/var/log/nats.log"
+    ]
+    ports:
+      - "4222:4222"  # NATS client port
+      - "8222:8222"  # HTTP monitoring port
+    volumes:
+      - nats_data:/data
+      - nats_logs:/var/log
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8222/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cityville-dev
+
+  # Prometheus (Monitoring)
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    container_name: cityville-prometheus-dev
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    networks:
+      - cityville-dev
+    depends_on:
+      - postgres
+      - redis
+      - nats
+
+  # Grafana (Dashboards)
+  grafana:
+    image: grafana/grafana:10.0.0
+    container_name: cityville-grafana-dev
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: false
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./config/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    networks:
+      - cityville-dev
+    depends_on:
+      - prometheus
+
+  # Jaeger (Distributed Tracing)
+  jaeger:
+    image: jaegertracing/all-in-one:1.47
+    container_name: cityville-jaeger-dev
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+    ports:
+      - "16686:16686"  # Jaeger UI
+      - "14268:14268"  # Jaeger collector HTTP
+      - "4317:4317"    # OTLP gRPC receiver
+      - "4318:4318"    # OTLP HTTP receiver
+    networks:
+      - cityville-dev
+
+  # MinIO (S3-compatible storage for development)
+  minio:
+    image: minio/minio:RELEASE.2023-07-07T07-13-57Z
+    container_name: cityville-minio-dev
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    ports:
+      - "9000:9000"  # MinIO API
+      - "9001:9001"  # MinIO Console
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - cityville-dev
+
+  # Mailhog (Email testing)
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: cityville-mailhog-dev
+    ports:
+      - "1025:1025"  # SMTP server
+      - "8025:8025"  # Web UI
+    networks:
+      - cityville-dev
+
+  # pgAdmin (PostgreSQL management)
+  pgadmin:
+    image: dpage/pgadmin4:7.4
+    container_name: cityville-pgadmin-dev
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@cityville.dev
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./config/pgadmin/servers.json:/pgadmin4/servers.json:ro
+    networks:
+      - cityville-dev
+    depends_on:
+      - postgres
+
+  # Redis Commander (Redis management)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: cityville-redis-commander-dev
+    environment:
+      REDIS_HOSTS: local:redis:6379:0:cityville_redis_password
+    ports:
+      - "8081:8081"
+    networks:
+      - cityville-dev
+    depends_on:
+      - redis
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  nats_data:
+    driver: local
+  nats_logs:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  minio_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  cityville-dev:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

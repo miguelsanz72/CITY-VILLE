@@ -1,0 +1,111 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# All files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# TypeScript and JavaScript files
+[*.{ts,tsx,js,jsx}]
+indent_size = 2
+max_line_length = 100
+
+# JSON files
+[*.json]
+indent_size = 2
+
+# YAML files
+[*.{yml,yaml}]
+indent_size = 2
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# Go files
+[*.go]
+indent_style = tab
+indent_size = 4
+
+# Python files
+[*.py]
+indent_size = 4
+max_line_length = 88
+
+# Shell scripts
+[*.{sh,bash}]
+indent_size = 2
+
+# Docker files
+[Dockerfile*]
+indent_size = 2
+
+# Makefile
+[Makefile]
+indent_style = tab
+
+# SQL files
+[*.sql]
+indent_size = 2
+
+# XML files
+[*.xml]
+indent_size = 2
+
+# HTML files
+[*.html]
+indent_size = 2
+
+# CSS and SCSS files
+[*.{css,scss,sass}]
+indent_size = 2
+
+# Configuration files
+[*.{toml,ini}]
+indent_size = 2
+
+# Package files
+[package.json]
+indent_size = 2
+
+# Lock files (don't format)
+[{package-lock.json,yarn.lock,pnpm-lock.yaml}]
+insert_final_newline = false
+trim_trailing_whitespace = false
+
+# Generated files (don't format)
+[*.{generated,gen}.{ts,js}]
+insert_final_newline = false
+trim_trailing_whitespace = false
+
+# Protocol buffer files
+[*.proto]
+indent_size = 2
+
+# Terraform files
+[*.{tf,tfvars}]
+indent_size = 2
+
+# Kubernetes YAML files
+[*.{k8s,kube}.{yml,yaml}]
+indent_size = 2
+
+# Helm templates
+[templates/*.{yml,yaml}]
+indent_size = 2
+
+# GitHub Actions
+[.github/workflows/*.{yml,yaml}]
+indent_size = 2
+
+# Docker Compose
+[docker-compose*.{yml,yaml}]
+indent_size = 2

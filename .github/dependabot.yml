@@ -1,0 +1,379 @@
+# GitHub Dependabot configuration for CityVille 2025
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Enable version updates for npm (root package.json)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "06:00"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "dependabot"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    rebase-strategy: "auto"
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    ignore:
+      # Ignore major version updates for critical packages
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "colyseus"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@colyseus/core"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "prisma"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@prisma/client"
+        update-types: ["version-update:semver-major"]
+    groups:
+      typescript:
+        patterns:
+          - "typescript"
+          - "@typescript-eslint/*"
+          - "ts-*"
+          - "@types/*"
+      eslint:
+        patterns:
+          - "eslint"
+          - "@eslint/*"
+          - "eslint-*"
+      prettier:
+        patterns:
+          - "prettier"
+          - "prettier-*"
+      testing:
+        patterns:
+          - "jest"
+          - "@jest/*"
+          - "jest-*"
+          - "@testing-library/*"
+          - "testing-library*"
+      react:
+        patterns:
+          - "react"
+          - "react-*"
+          - "@react/*"
+      nextjs:
+        patterns:
+          - "next"
+          - "@next/*"
+          - "next-*"
+      vite:
+        patterns:
+          - "vite"
+          - "@vitejs/*"
+          - "vite-*"
+      colyseus:
+        patterns:
+          - "colyseus"
+          - "@colyseus/*"
+          - "colyseus-*"
+      prisma:
+        patterns:
+          - "prisma"
+          - "@prisma/*"
+          - "prisma-*"
+
+  # Enable version updates for npm (API Gateway)
+  - package-ecosystem: "npm"
+    directory: "/apps/api-gateway"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "06:30"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "api-gateway"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(api-gateway)"
+      prefix-development: "deps-dev(api-gateway)"
+      include: "scope"
+
+  # Enable version updates for npm (Game Client)
+  - package-ecosystem: "npm"
+    directory: "/apps/game-client"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "07:00"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "game-client"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(game-client)"
+      prefix-development: "deps-dev(game-client)"
+      include: "scope"
+
+  # Enable version updates for npm (Game Server)
+  - package-ecosystem: "npm"
+    directory: "/apps/game-server"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "07:30"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "game-server"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(game-server)"
+      prefix-development: "deps-dev(game-server)"
+      include: "scope"
+
+  # Enable version updates for npm (Shared Packages)
+  - package-ecosystem: "npm"
+    directory: "/packages/config"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "08:00"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 2
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "packages"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(packages)"
+      prefix-development: "deps-dev(packages)"
+      include: "scope"
+
+  # Enable version updates for npm (ECS Core)
+  - package-ecosystem: "npm"
+    directory: "/packages/ecs-core"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "08:30"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 2
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "ecs-core"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(ecs-core)"
+      prefix-development: "deps-dev(ecs-core)"
+      include: "scope"
+
+  # Enable version updates for npm (UI React)
+  - package-ecosystem: "npm"
+    directory: "/packages/ui-react"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "09:00"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 2
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "ui-react"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(ui-react)"
+      prefix-development: "deps-dev(ui-react)"
+      include: "scope"
+
+  # Enable version updates for npm (Proto)
+  - package-ecosystem: "npm"
+    directory: "/packages/proto"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "09:30"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 2
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "proto"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(proto)"
+      prefix-development: "deps-dev(proto)"
+      include: "scope"
+
+  # Enable version updates for Go modules (Economy Service)
+  - package-ecosystem: "gomod"
+    directory: "/services/economy"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "10:00"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "go"
+      - "economy"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(economy)"
+      include: "scope"
+
+  # Enable version updates for Go modules (Quests Service)
+  - package-ecosystem: "gomod"
+    directory: "/services/quests"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "10:30"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "go"
+      - "quests"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(quests)"
+      include: "scope"
+
+  # Enable version updates for Go modules (Social Service)
+  - package-ecosystem: "gomod"
+    directory: "/services/social"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "11:00"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "go"
+      - "social"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(social)"
+      include: "scope"
+
+  # Enable version updates for Docker
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "11:30"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(docker)"
+      include: "scope"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "12:00"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(actions)"
+      include: "scope"
+
+  # Enable version updates for Terraform
+  - package-ecosystem: "terraform"
+    directory: "/infra/terraform"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "12:30"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "msanz"
+    assignees:
+      - "msanz"
+    labels:
+      - "dependencies"
+      - "terraform"
+      - "infrastructure"
+      - "dependabot"
+    commit-message:
+      prefix: "deps(terraform)"
+      include: "scope"

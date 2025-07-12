@@ -1,14 +1,76 @@
 
 {
   "name": "cityville",
+  "version": "1.0.0",
   "private": true,
+  "description": "CityVille 2025 - Modern city building game",
   "workspaces": [
     "apps/*",
     "packages/*",
     "services/*"
   ],
   "scripts": {
-    "proto:gen": "echo \"Generating protos...\"",
-    "dev:all": "echo \"Starting all dev services...\""
+    "dev:all": "concurrently \"yarn dev:api\" \"yarn dev:client\" \"yarn dev:server\" \"yarn dev:services\"",
+    "dev:api": "yarn workspace @cityville/api-gateway dev",
+    "dev:client": "yarn workspace @cityville/game-client dev",
+    "dev:server": "yarn workspace @cityville/game-server dev",
+    "dev:services": "docker-compose -f docker-compose.dev.yml up -d",
+    "build:all": "yarn build:packages && yarn build:apps",
+    "build:packages": "yarn workspace @cityville/ecs-core build && yarn workspace @cityville/proto build",
+    "build:apps": "yarn workspace @cityville/api-gateway build && yarn workspace @cityville/game-client build && yarn workspace @cityville/game-server build",
+    "proto:gen": "yarn workspace @cityville/proto generate",
+    "test:unit": "jest --projects apps/*/jest.config.js packages/*/jest.config.js",
+    "test:e2e": "playwright test",
+    "test:coverage": "jest --coverage --projects apps/*/jest.config.js packages/*/jest.config.js",
+    "lint": "eslint apps/**/*.ts packages/**/*.ts --fix",
+    "lint:check": "eslint apps/**/*.ts packages/**/*.ts",
+    "format": "prettier --write apps/**/*.{ts,tsx,js,jsx,json} packages/**/*.{ts,tsx,js,jsx,json}",
+    "format:check": "prettier --check apps/**/*.{ts,tsx,js,jsx,json} packages/**/*.{ts,tsx,js,jsx,json}",
+    "type:check": "tsc --noEmit --project tsconfig.json",
+    "db:migrate": "yarn workspace @cityville/api-gateway db:migrate",
+    "db:seed": "yarn workspace @cityville/api-gateway db:seed",
+    "db:reset": "yarn workspace @cityville/api-gateway db:reset",
+    "db:studio": "yarn workspace @cityville/api-gateway db:studio",
+    "infra:plan": "cd infra/terraform && terraform plan",
+    "infra:apply": "cd infra/terraform && terraform apply",
+    "k8s:deploy": "helm upgrade --install cityville infra/helm/cityville",
+    "k8s:deploy:staging": "helm upgrade --install cityville-staging infra/helm/cityville -f infra/helm/values-staging.yaml",
+    "k8s:deploy:prod": "helm upgrade --install cityville-prod infra/helm/cityville -f infra/helm/values-production.yaml",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "clean": "yarn workspaces foreach -A run clean && rm -rf node_modules",
+    "clean:deps": "yarn workspaces foreach -A exec rm -rf node_modules && rm -rf node_modules",
+    "postinstall": "husky install",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@playwright/test": "^1.40.0",
+    "concurrently": "^8.2.0",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-security": "^1.7.0",
+    "husky": "^8.0.3",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "yarn": ">=3.0.0"
+  },
+  "packageManager": "yarn@4.0.0",
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
   }
 }

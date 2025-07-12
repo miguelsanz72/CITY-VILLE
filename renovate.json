@@ -1,0 +1,359 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    "schedule:weekends",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+    ":ignoreUnstable",
+    ":prImmediately",
+    ":updateNotScheduled",
+    ":automergeDisabled",
+    ":ignoreModulesAndTests",
+    ":autodetectPinVersions",
+    ":prConcurrentLimit10",
+    ":prHourlyLimitNone"
+  ],
+  "timezone": "Europe/Madrid",
+  "schedule": ["before 6am on saturday"],
+  "labels": ["dependencies", "renovate"],
+  "assignees": ["@msanz"],
+  "reviewers": ["@msanz"],
+  "prCreation": "immediate",
+  "prConcurrentLimit": 5,
+  "branchConcurrentLimit": 10,
+  "semanticCommits": "enabled",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageAction": "update",
+  "commitMessageExtra": "to {{newVersion}}",
+  "commitMessageSuffix": "",
+  "rebaseWhen": "conflicted",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on saturday"]
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": ["at any time"]
+  },
+  "packageRules": [
+    {
+      "description": "Group all non-major dependencies",
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch"
+    },
+    {
+      "description": "Auto-merge patch updates for trusted packages",
+      "matchUpdateTypes": ["patch"],
+      "matchPackagePatterns": [
+        "^@types/",
+        "^eslint",
+        "^prettier",
+        "^typescript",
+        "^jest",
+        "^@testing-library/"
+      ],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Group TypeScript and related packages",
+      "matchPackagePatterns": [
+        "^typescript",
+        "^@typescript-eslint/",
+        "^ts-",
+        "^@types/"
+      ],
+      "groupName": "TypeScript",
+      "groupSlug": "typescript"
+    },
+    {
+      "description": "Group ESLint packages",
+      "matchPackagePatterns": [
+        "^eslint",
+        "^@eslint/",
+        "eslint-"
+      ],
+      "groupName": "ESLint",
+      "groupSlug": "eslint"
+    },
+    {
+      "description": "Group Prettier packages",
+      "matchPackagePatterns": [
+        "^prettier",
+        "prettier-"
+      ],
+      "groupName": "Prettier",
+      "groupSlug": "prettier"
+    },
+    {
+      "description": "Group Jest and testing packages",
+      "matchPackagePatterns": [
+        "^jest",
+        "^@jest/",
+        "jest-",
+        "^@testing-library/",
+        "^testing-library"
+      ],
+      "groupName": "Testing",
+      "groupSlug": "testing"
+    },
+    {
+      "description": "Group React packages",
+      "matchPackagePatterns": [
+        "^react",
+        "^@react/",
+        "react-"
+      ],
+      "groupName": "React",
+      "groupSlug": "react"
+    },
+    {
+      "description": "Group Next.js packages",
+      "matchPackagePatterns": [
+        "^next",
+        "^@next/",
+        "next-"
+      ],
+      "groupName": "Next.js",
+      "groupSlug": "nextjs"
+    },
+    {
+      "description": "Group Vite packages",
+      "matchPackagePatterns": [
+        "^vite",
+        "^@vitejs/",
+        "vite-"
+      ],
+      "groupName": "Vite",
+      "groupSlug": "vite"
+    },
+    {
+      "description": "Group Colyseus packages",
+      "matchPackagePatterns": [
+        "^colyseus",
+        "^@colyseus/",
+        "colyseus-"
+      ],
+      "groupName": "Colyseus",
+      "groupSlug": "colyseus"
+    },
+    {
+      "description": "Group Prisma packages",
+      "matchPackagePatterns": [
+        "^prisma",
+        "^@prisma/",
+        "prisma-"
+      ],
+      "groupName": "Prisma",
+      "groupSlug": "prisma"
+    },
+    {
+      "description": "Group GraphQL packages",
+      "matchPackagePatterns": [
+        "^graphql",
+        "^@graphql/",
+        "graphql-",
+        "^apollo",
+        "^@apollo/"
+      ],
+      "groupName": "GraphQL",
+      "groupSlug": "graphql"
+    },
+    {
+      "description": "Group Docker packages",
+      "matchPackagePatterns": [
+        "^docker",
+        "^@docker/",
+        "docker-"
+      ],
+      "groupName": "Docker",
+      "groupSlug": "docker"
+    },
+    {
+      "description": "Group Kubernetes packages",
+      "matchPackagePatterns": [
+        "^kubernetes",
+        "^@kubernetes/",
+        "k8s-"
+      ],
+      "groupName": "Kubernetes",
+      "groupSlug": "kubernetes"
+    },
+    {
+      "description": "Group AWS packages",
+      "matchPackagePatterns": [
+        "^aws-",
+        "^@aws-",
+        "^@aws-sdk/"
+      ],
+      "groupName": "AWS",
+      "groupSlug": "aws"
+    },
+    {
+      "description": "Group monitoring packages",
+      "matchPackagePatterns": [
+        "^prometheus",
+        "^@prometheus/",
+        "^grafana",
+        "^jaeger",
+        "^opentelemetry",
+        "^@opentelemetry/"
+      ],
+      "groupName": "Monitoring",
+      "groupSlug": "monitoring"
+    },
+    {
+      "description": "Pin major versions for critical packages",
+      "matchPackageNames": [
+        "react",
+        "react-dom",
+        "next",
+        "typescript",
+        "node",
+        "colyseus",
+        "prisma"
+      ],
+      "rangeStrategy": "pin"
+    },
+    {
+      "description": "Separate major updates for critical packages",
+      "matchPackageNames": [
+        "react",
+        "react-dom",
+        "next",
+        "typescript",
+        "node",
+        "colyseus",
+        "prisma",
+        "@prisma/client"
+      ],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["major-update", "needs-review"]
+    },
+    {
+      "description": "Security updates",
+      "matchDatasources": ["npm"],
+      "matchUpdateTypes": ["patch"],
+      "matchCurrentVersion": "!/^0/",
+      "stabilityDays": 0,
+      "separateMinorPatch": true,
+      "addLabels": ["security"]
+    },
+    {
+      "description": "Development dependencies",
+      "matchDepTypes": ["devDependencies"],
+      "addLabels": ["dev-dependencies"]
+    },
+    {
+      "description": "Production dependencies",
+      "matchDepTypes": ["dependencies"],
+      "addLabels": ["prod-dependencies"]
+    },
+    {
+      "description": "Peer dependencies",
+      "matchDepTypes": ["peerDependencies"],
+      "addLabels": ["peer-dependencies"]
+    },
+    {
+      "description": "Optional dependencies",
+      "matchDepTypes": ["optionalDependencies"],
+      "addLabels": ["optional-dependencies"]
+    },
+    {
+      "description": "Ignore alpha, beta, and rc versions",
+      "matchPackagePatterns": ["*"],
+      "matchCurrentVersion": "!/alpha|beta|rc/",
+      "ignoreUnstable": true
+    },
+    {
+      "description": "Ignore specific packages that cause issues",
+      "matchPackageNames": [
+        "@types/node"
+      ],
+      "enabled": false
+    }
+  ],
+  "regexManagers": [
+    {
+      "description": "Update Go version in Dockerfiles",
+      "fileMatch": ["(^|/)Dockerfile$", "(^|/)Dockerfile\\.[^/]*$"],
+      "matchStrings": ["FROM golang:(?<currentValue>.*?)\\s"],
+      "depNameTemplate": "golang",
+      "datasourceTemplate": "docker"
+    },
+    {
+      "description": "Update Node.js version in Dockerfiles",
+      "fileMatch": ["(^|/)Dockerfile$", "(^|/)Dockerfile\\.[^/]*$"],
+      "matchStrings": ["FROM node:(?<currentValue>.*?)\\s"],
+      "depNameTemplate": "node",
+      "datasourceTemplate": "docker"
+    },
+    {
+      "description": "Update versions in docker-compose files",
+      "fileMatch": ["(^|/)docker-compose[^/]*\\.ya?ml$"],
+      "matchStrings": [
+        "image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s]+)"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "description": "Update versions in Kubernetes manifests",
+      "fileMatch": [
+        "(^|/)k8s/.+\\.ya?ml$",
+        "(^|/)kubernetes/.+\\.ya?ml$",
+        "(^|/)manifests/.+\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s]+)"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "description": "Update versions in Helm charts",
+      "fileMatch": ["(^|/)charts/.+/values\\.ya?ml$"],
+      "matchStrings": [
+        "tag:\\s*(?<currentValue>[^\\s]+)",
+        "version:\\s*(?<currentValue>[^\\s]+)"
+      ],
+      "depNameTemplate": "helm-chart",
+      "datasourceTemplate": "helm"
+    }
+  ],
+  "dockerfile": {
+    "enabled": true
+  },
+  "docker-compose": {
+    "enabled": true
+  },
+  "kubernetes": {
+    "enabled": true
+  },
+  "helm-values": {
+    "enabled": true
+  },
+  "terraform": {
+    "enabled": true
+  },
+  "golang": {
+    "enabled": true
+  },
+  "npm": {
+    "enabled": true
+  },
+  "yarn": {
+    "enabled": true
+  },
+  "pnpm": {
+    "enabled": false
+  },
+  "github-actions": {
+    "enabled": true
+  },
+  "pre-commit": {
+    "enabled": true
+  }
+}

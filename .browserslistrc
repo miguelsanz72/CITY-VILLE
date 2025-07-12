@@ -1,0 +1,90 @@
+# Browserslist configuration for CityVille 2025
+# https://github.com/browserslist/browserslist
+
+# Production browsers
+# Modern browsers with good performance for gaming
+> 0.5%
+last 2 Chrome versions
+last 2 Firefox versions
+last 2 Safari versions
+last 2 Edge versions
+not dead
+not ie <= 11
+not op_mini all
+
+# Mobile browsers for mobile gaming
+ios >= 12
+android >= 8
+
+# Gaming-specific requirements
+# Browsers with good WebGL support
+supports es6-module
+supports webgl
+supports webgl2
+supports websockets
+supports web-workers
+supports indexeddb
+supports localstorage
+supports sessionstorage
+
+# Performance requirements
+# Browsers with good JavaScript performance
+supports es6-class
+supports es6-arrow-functions
+supports es6-destructuring
+supports es6-spread
+supports async-await
+supports promises
+
+# Modern CSS features for UI
+supports css-grid
+supports css-flexbox
+supports css-variables
+supports css-calc
+supports css-transforms
+supports css-transitions
+supports css-animations
+
+# Development browsers (more permissive)
+[development]
+last 1 Chrome version
+last 1 Firefox version
+last 1 Safari version
+last 1 Edge version
+
+# Testing browsers
+[test]
+current node
+
+# Legacy support (minimal)
+[legacy]
+> 1%
+last 3 Chrome versions
+last 3 Firefox versions
+last 3 Safari versions
+last 3 Edge versions
+not dead
+not ie <= 11
+
+# Mobile-first configuration
+[mobile]
+ios >= 12
+android >= 8
+Chrome >= 80
+Firefox >= 75
+Safari >= 13
+Edge >= 80
+
+# Desktop gaming configuration
+[desktop]
+Chrome >= 90
+Firefox >= 88
+Safari >= 14
+Edge >= 90
+
+# High-performance configuration
+[performance]
+Chrome >= 95
+Firefox >= 93
+Safari >= 15
+Edge >= 95
