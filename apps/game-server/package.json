@@ -8,9 +8,9 @@
     "build": "tsc"
   },
   "dependencies": {
-    "colyseus": "^0.15.0",
-    "@colyseus/monitor": "^0.15.0",
-    "@colyseus/schema": "^2.0.0",
+    "colyseus": "^0.16.4",
+    "@colyseus/monitor": "^0.16.7",
+    "@colyseus/schema": "^3.0.42",
     "express": "^4.17.1"
   },
   "devDependencies": {
