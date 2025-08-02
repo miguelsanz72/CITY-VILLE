@@ -10,7 +10,7 @@
   "dependencies": {
     "colyseus": "^0.15.0",
     "@colyseus/monitor": "^0.15.0",
-    "@colyseus/schema": "^2.0.0",
+    "@colyseus/schema": "^3.0.49",
     "express": "^4.17.1"
   },
   "devDependencies": {
