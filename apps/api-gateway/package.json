@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
-    "@nestjs/schematics": "^10.0.0",
+    "@nestjs/schematics": "^11.0.7",
     "typescript": "^5.0.0"
   }
 }
